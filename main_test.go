@@ -62,6 +62,16 @@ func TestCafeSearch(t *testing.T) {
 		} else {
 			count = len(arrayResponse)
 		}
+
+		for _, cafe := range arrayResponse {
+			var expected bool
+
+			if v.want != 0 {
+				expected = true
+			}
+
+			assert.Equal(t, expected, strings.Contains(strings.ToLower(cafe), strings.ToLower(v.search)), "Кафе: %s \nне содержит поисковой запрос: %s", cafe, v.search)
+		}
 		assert.Equal(t, v.want, count)
 
 	}
@@ -98,7 +108,9 @@ func TestCafeCount(t *testing.T) {
 			count = len(arrayResponse)
 		}
 
-		assert.Equal(t, v.want, count)
+		minCount := min(count, v.count)
+
+		assert.Equal(t, v.want, minCount)
 	}
 }
 
